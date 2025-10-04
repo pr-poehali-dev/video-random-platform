@@ -4,10 +4,14 @@ import Header from '@/components/Header';
 import VideoCard from '@/components/VideoCard';
 import { getRandomVideos } from '@/lib/mockVideos';
 import { Video } from '@/types/video';
+import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from '@/lib/i18n';
 
 const Index = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
 
   useEffect(() => {
     setVideos(getRandomVideos(20));
@@ -28,13 +32,13 @@ const Index = () => {
       <main className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">
-            Случайные <span className="text-primary">видео</span>
+            <span className="text-primary">20</span> {t('home.title')}
           </h2>
           <button
             onClick={refreshVideos}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
           >
-            Обновить
+            {t('home.refresh')}
           </button>
         </div>
 

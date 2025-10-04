@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
 import { MOCK_VIDEOS, getAllTags } from '@/lib/mockVideos';
 import { Video } from '@/types/video';
+import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from '@/lib/i18n';
 
 const TAG_COLORS: Record<string, string> = {
   actor: 'bg-[hsl(var(--tag-actor))]',
@@ -22,6 +24,8 @@ const getTagColor = (type: string) => {
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [filteredVideos, setFilteredVideos] = useState<Video[]>([]);
@@ -73,14 +77,14 @@ const SearchPage = () => {
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-6">
-            Поиск <span className="text-primary">видео</span>
+            {t('search.title')} <span className="text-primary">{t('search.subtitle')}</span>
           </h1>
           
           <div className="relative mb-6">
             <Icon name="Search" size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="text"
-              placeholder="Поиск по названию или тегам..."
+              placeholder={t('search.placeholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-12 bg-secondary border-border h-12 text-base focus-visible:ring-2 focus-visible:ring-primary"
@@ -88,7 +92,7 @@ const SearchPage = () => {
           </div>
 
           <div className="mb-6">
-            <h2 className="text-lg font-semibold mb-3">Фильтр по тегам</h2>
+            <h2 className="text-lg font-semibold mb-3">{t('search.filterByTags')}</h2>
             <div className="flex flex-wrap gap-2">
               {allTags.map(tag => (
                 <Badge
@@ -128,10 +132,10 @@ const SearchPage = () => {
 
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold">
-            Результаты поиска
+            {t('search.results')}
           </h2>
           <span className="text-sm text-muted-foreground">
-            {filteredVideos.length} видео
+            {filteredVideos.length} {t('search.videosCount')}
           </span>
         </div>
 
@@ -153,9 +157,9 @@ const SearchPage = () => {
         ) : (
           <div className="text-center py-16">
             <Icon name="SearchX" size={64} className="mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-xl font-semibold mb-2">Ничего не найдено</h3>
+            <h3 className="text-xl font-semibold mb-2">{t('search.noResults')}</h3>
             <p className="text-muted-foreground">
-              Попробуйте изменить параметры поиска
+              {t('search.tryAgain')}
             </p>
           </div>
         )}

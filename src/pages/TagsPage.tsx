@@ -4,6 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import { getAllTags } from '@/lib/mockVideos';
+import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from '@/lib/i18n';
 
 const TAG_COLORS: Record<string, string> = {
   actor: 'bg-[hsl(var(--tag-actor))]',
@@ -29,6 +31,8 @@ const getTagIcon = (type: string) => {
 
 const TagsPage = () => {
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
   const allTags = getAllTags();
 
   const tagsByType = allTags.reduce((acc, tag) => {
@@ -50,9 +54,9 @@ const TagsPage = () => {
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">
-            Все <span className="text-primary">теги</span>
+            {t('tags.title')} <span className="text-primary">{t('tags.subtitle')}</span>
           </h1>
-          <p className="text-muted-foreground">Исследуйте видео по категориям, актёрам, странам и праздникам</p>
+          <p className="text-muted-foreground">{t('tags.description')}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -63,8 +67,8 @@ const TagsPage = () => {
                   <Icon name={getTagIcon(type)} size={20} className="text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold capitalize">{type}</h2>
-                  <p className="text-sm text-muted-foreground">{tags.length} тегов</p>
+                  <h2 className="text-xl font-bold capitalize">{t(`tagType.${type}` as any)}</h2>
+                  <p className="text-sm text-muted-foreground">{tags.length} {t('tags.count')}</p>
                 </div>
               </div>
               

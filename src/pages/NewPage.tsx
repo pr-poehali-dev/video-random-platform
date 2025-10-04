@@ -4,10 +4,14 @@ import Header from '@/components/Header';
 import VideoCard from '@/components/VideoCard';
 import { getNewVideos } from '@/lib/mockVideos';
 import { Video } from '@/types/video';
+import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from '@/lib/i18n';
 
 const NewPage = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
 
   useEffect(() => {
     setVideos(getNewVideos(20));
@@ -24,10 +28,10 @@ const NewPage = () => {
       <main className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <h1 className="text-3xl font-bold">
-            Новые <span className="text-primary">видео</span>
+            {t('new.title')} <span className="text-primary">{t('new.subtitle')}</span>
           </h1>
           <p className="text-muted-foreground mt-2">
-            Последние добавленные видео на платформе
+            {t('new.description')}
           </p>
         </div>
 

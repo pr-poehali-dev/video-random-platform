@@ -4,6 +4,8 @@ import VideoCard from '@/components/VideoCard';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { getVideoById, getRelatedVideos } from '@/lib/mockVideos';
+import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from '@/lib/i18n';
 
 const TAG_COLORS: Record<string, string> = {
   actor: 'bg-[hsl(var(--tag-actor))]',
@@ -19,6 +21,8 @@ const getTagColor = (type: string) => {
 const VideoPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
   const video = id ? getVideoById(id) : undefined;
 
   if (!video) {
@@ -26,9 +30,9 @@ const VideoPage = () => {
       <div className="min-h-screen bg-background">
         <Header />
         <div className="container mx-auto px-4 py-16 text-center">
-          <h2 className="text-2xl font-bold mb-4">Видео не найдено</h2>
+          <h2 className="text-2xl font-bold mb-4">{t('video.notFound')}</h2>
           <Link to="/" className="text-primary hover:underline">
-            Вернуться на главную
+            {t('video.goHome')}
           </Link>
         </div>
       </div>
@@ -66,7 +70,7 @@ const VideoPage = () => {
             <div className="flex items-center gap-6 text-sm text-muted-foreground mb-4">
               <div className="flex items-center gap-2">
                 <Icon name="Eye" size={18} />
-                <span>{video.views.toLocaleString()} просмотров</span>
+                <span>{video.views.toLocaleString()} {t('video.views')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Icon name="Clock" size={18} />
@@ -97,7 +101,7 @@ const VideoPage = () => {
           {relatedVideos.length > 0 && (
             <div>
               <h2 className="text-2xl font-bold mb-6">
-                Похожие <span className="text-primary">видео</span>
+                {t('video.related')}
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {relatedVideos.map(relatedVideo => (

@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { useNavigate } from 'react-router-dom';
 import { MOCK_VIDEOS, getAllTags, getPopularVideos } from '@/lib/mockVideos';
+import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from '@/lib/i18n';
 
 const TAG_COLORS: Record<string, string> = {
   actor: 'bg-[hsl(var(--tag-actor))]',
@@ -19,6 +21,8 @@ const getTagColor = (type: string) => {
 
 const AnalyticsPage = () => {
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
   const popularVideos = getPopularVideos(6);
   const popularTags = getAllTags().slice(0, 10);
   
@@ -37,9 +41,9 @@ const AnalyticsPage = () => {
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">
-            <span className="text-primary">Аналитика</span> платформы
+            <span className="text-primary">{t('analytics.title')}</span> {t('analytics.subtitle')}
           </h1>
-          <p className="text-muted-foreground">Статистика просмотров и популярный контент</p>
+          <p className="text-muted-foreground">{t('analytics.description')}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -49,7 +53,7 @@ const AnalyticsPage = () => {
                 <Icon name="Play" size={24} className="text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Всего видео</p>
+                <p className="text-sm text-muted-foreground">{t('analytics.totalVideos')}</p>
                 <p className="text-3xl font-bold">{totalVideos}</p>
               </div>
             </div>
@@ -61,7 +65,7 @@ const AnalyticsPage = () => {
                 <Icon name="Eye" size={24} className="text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Всего просмотров</p>
+                <p className="text-sm text-muted-foreground">{t('analytics.totalViews')}</p>
                 <p className="text-3xl font-bold">{totalViews.toLocaleString()}</p>
               </div>
             </div>
@@ -73,7 +77,7 @@ const AnalyticsPage = () => {
                 <Icon name="TrendingUp" size={24} className="text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Средние просмотры</p>
+                <p className="text-sm text-muted-foreground">{t('analytics.avgViews')}</p>
                 <p className="text-3xl font-bold">{averageViews.toLocaleString()}</p>
               </div>
             </div>
@@ -84,7 +88,7 @@ const AnalyticsPage = () => {
           <Card className="bg-card border-border p-6">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
               <Icon name="Tag" size={20} className="text-primary" />
-              Популярные теги
+              {t('analytics.popularTags')}
             </h2>
             <div className="space-y-3">
               {popularTags.map((tag, index) => (
@@ -110,7 +114,7 @@ const AnalyticsPage = () => {
           <Card className="bg-card border-border p-6">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
               <Icon name="BarChart3" size={20} className="text-primary" />
-              Топ по просмотрам
+              {t('analytics.topVideos')}
             </h2>
             <div className="space-y-3">
               {popularVideos.map((video, index) => (
@@ -137,7 +141,7 @@ const AnalyticsPage = () => {
 
         <div>
           <h2 className="text-2xl font-bold mb-6">
-            Самые популярные <span className="text-primary">видео</span>
+            {t('analytics.mostPopular')} <span className="text-primary">{t('search.subtitle')}</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {popularVideos.map(video => (
